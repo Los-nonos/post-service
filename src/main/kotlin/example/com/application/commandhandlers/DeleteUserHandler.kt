@@ -1,7 +1,7 @@
 package example.com.application.commandhandlers
 
 import example.com.application.commands.DeleteUserCommand
-import example.com.infrastructure.MongoUserRepository
+import example.com.infrastructure.persistence.MongoUserRepository
 import io.ktor.server.plugins.*
 
 class DeleteUserHandler(

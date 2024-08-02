@@ -1,7 +1,7 @@
 package example.com.application.queryhandlers
 
 import example.com.application.queries.FindUserByIdQuery
-import example.com.infrastructure.MongoUserRepository
+import example.com.infrastructure.persistence.MongoUserRepository
 import io.ktor.server.plugins.*
 
 class FindUserByIdHandler(

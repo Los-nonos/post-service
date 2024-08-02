@@ -1,4 +1,4 @@
-package example.com.http.router
+package example.com.infrastructure.http.router
 
 import example.com.application.commands.CreateUserCommand
 import example.com.application.commands.UpdateUserCommand
@@ -8,12 +8,12 @@ import example.com.application.commandhandlers.UpdateUserHandler
 import example.com.application.commands.DeleteUserCommand
 import example.com.application.queries.FindUserByIdQuery
 import example.com.application.queryhandlers.FindUserByIdHandler
-import example.com.http.actions.CreateUserAction
-import example.com.http.actions.DeleteUserAction
-import example.com.http.actions.FindUserByIdAction
-import example.com.http.actions.UpdateUserAction
-import example.com.infrastructure.MongoUserRepository
-import example.com.infrastructure.connectToMongoDB
+import example.com.infrastructure.http.actions.CreateUserAction
+import example.com.infrastructure.http.actions.DeleteUserAction
+import example.com.infrastructure.http.actions.FindUserByIdAction
+import example.com.infrastructure.http.actions.UpdateUserAction
+import example.com.infrastructure.persistence.MongoUserRepository
+import example.com.infrastructure.persistence.connectToMongoDB
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
@@ -55,16 +55,9 @@ fun Application.userRouter() {
 
             val query = FindUserByIdQuery(call.parameters["id"].toString())
 
-            try {
+            val result = findUserByIdAction.execute(query)
 
-                val result = findUserByIdAction.execute(query)
-
-                call.respond(HttpStatusCode.OK, result)
-            } catch (e: NotFoundException) {
-                call.respond(HttpStatusCode.NotFound, mapOf("message" to e.message))
-            } catch (e: Error) {
-                call.respond(HttpStatusCode.InternalServerError, mapOf("message" to "internal server error"))
-            }
+            call.respond(HttpStatusCode.OK, result)
 
         }
 
@@ -79,15 +72,9 @@ fun Application.userRouter() {
 
             val query = DeleteUserCommand(call.parameters["id"].toString())
 
-            try {
-                deleteUserAction.execute(query)
+            deleteUserAction.execute(query)
 
-                call.respond(HttpStatusCode.NoContent)
-            } catch (e: NotFoundException) {
-                call.respond(HttpStatusCode.NotFound, mapOf("message" to e.message))
-            } catch (e: Error) {
-                call.respond(HttpStatusCode.InternalServerError, mapOf("message" to "internal server error"))
-            }
+            call.respond(HttpStatusCode.NoContent)
         }
     }
 }

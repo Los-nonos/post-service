@@ -1,4 +1,4 @@
-package example.com.http.actions
+package example.com.infrastructure.http.actions
 
 import example.com.application.queries.FindUserByIdQuery
 import example.com.application.queryhandlers.FindUserByIdHandler

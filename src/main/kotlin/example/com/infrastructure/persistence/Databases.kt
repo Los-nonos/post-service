@@ -1,4 +1,4 @@
-package example.com.infrastructure
+package example.com.infrastructure.persistence
 
 import com.mongodb.client.*
 import io.ktor.server.application.*

@@ -1,4 +1,4 @@
-package example.com.http.actions
+package example.com.infrastructure.http.actions
 
 import example.com.application.commands.UpdateUserCommand
 import example.com.application.commandhandlers.UpdateUserHandler
