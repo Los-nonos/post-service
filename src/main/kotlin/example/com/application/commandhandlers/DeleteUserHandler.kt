@@ -1,20 +1,21 @@
-package example.com.application.handlers
+package example.com.application.commandhandlers
 
-import example.com.application.commands.UpdateUserCommand
+import example.com.application.commands.DeleteUserCommand
 import example.com.infrastructure.MongoUserRepository
 import io.ktor.server.plugins.*
 
-class UpdateUserHandler(
+class DeleteUserHandler(
     private val userRepository: MongoUserRepository
 ) {
 
-    fun handle(command: UpdateUserCommand) {
+    fun handle(command: DeleteUserCommand) {
+
         val user = userRepository.findOne(command.id)
 
         if (user == null) {
             throw NotFoundException("not found user with id: ${command.id}")
         }
 
-        user.update(command.name, command.lastName)
+        userRepository.delete(user);
     }
 }

@@ -1,7 +1,7 @@
 package example.com.http.actions
 
 import example.com.application.commands.UpdateUserCommand
-import example.com.application.handlers.UpdateUserHandler
+import example.com.application.commandhandlers.UpdateUserHandler
 
 class UpdateUserAction(
     private val handler: UpdateUserHandler

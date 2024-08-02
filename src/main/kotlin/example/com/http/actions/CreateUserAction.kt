@@ -1,7 +1,7 @@
 package example.com.http.actions
 
 import example.com.application.commands.CreateUserCommand
-import example.com.application.handlers.CreateUserHandler
+import example.com.application.commandhandlers.CreateUserHandler
 
 class CreateUserAction(
     private val handler: CreateUserHandler

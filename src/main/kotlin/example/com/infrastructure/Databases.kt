@@ -1,16 +1,8 @@
 package example.com.infrastructure
 
 import com.mongodb.client.*
-import example.com.application.handlers.CreateUserHandler
-import example.com.http.actions.CreateUserAction
-import example.com.plugins.Car
-import example.com.plugins.CarService
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.config.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
 
 fun Application.configureDatabases() {
 

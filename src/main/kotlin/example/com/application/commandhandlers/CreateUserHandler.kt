@@ -1,4 +1,4 @@
-package example.com.application.handlers
+package example.com.application.commandhandlers
 
 import example.com.application.commands.CreateUserCommand
 import example.com.domain.entities.User

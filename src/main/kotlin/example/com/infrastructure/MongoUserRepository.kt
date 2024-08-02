@@ -35,13 +35,13 @@ class MongoUserRepository(private val database: MongoDatabase) {
         return User.fromPrimitives(primitives as Map<String, String>)
     }
 
-    fun findAll(): Array<User> {
+    fun findAll(): List<User> {
 
-        val primitives = collection.find();
+        val primitives = collection.find().map { it as Document }.toList();
 
         return primitives.map {
-            User.fromPrimitives(it as Map<String, String>)
-        } as Array<User>;
+            User.fromPrimitives(it.toMap() as Map<String, String>)
+        };
     }
 
     fun delete(user: User) {
