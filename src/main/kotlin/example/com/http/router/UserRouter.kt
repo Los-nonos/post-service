@@ -16,6 +16,7 @@ import example.com.infrastructure.MongoUserRepository
 import example.com.infrastructure.connectToMongoDB
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -54,9 +55,17 @@ fun Application.userRouter() {
 
             val query = FindUserByIdQuery(call.parameters["id"].toString())
 
-            val result = findUserByIdAction.execute(query)
+            try {
 
-            call.respond(HttpStatusCode.OK, result)
+                val result = findUserByIdAction.execute(query)
+
+                call.respond(HttpStatusCode.OK, result)
+            } catch (e: NotFoundException) {
+                call.respond(HttpStatusCode.NotFound, mapOf("message" to e.message))
+            } catch (e: Error) {
+                call.respond(HttpStatusCode.InternalServerError, mapOf("message" to "internal server error"))
+            }
+
         }
 
         get("/users") {
@@ -70,9 +79,15 @@ fun Application.userRouter() {
 
             val query = DeleteUserCommand(call.parameters["id"].toString())
 
-            deleteUserAction.execute(query)
+            try {
+                deleteUserAction.execute(query)
 
-            call.respond(HttpStatusCode.NoContent)
+                call.respond(HttpStatusCode.NoContent)
+            } catch (e: NotFoundException) {
+                call.respond(HttpStatusCode.NotFound, mapOf("message" to e.message))
+            } catch (e: Error) {
+                call.respond(HttpStatusCode.InternalServerError, mapOf("message" to "internal server error"))
+            }
         }
     }
 }
