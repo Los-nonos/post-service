@@ -1,6 +1,7 @@
 package example.com
 
 import com.fasterxml.jackson.databind.SerializationFeature
+import example.com.infrastructure.http.router.postRouter
 import example.com.infrastructure.http.router.userRouter
 import example.com.infrastructure.persistence.configureDatabases
 import io.ktor.http.*
@@ -43,6 +44,7 @@ fun Application.module() {
 
     configureDatabases()
     userRouter()
+    postRouter()
     errorHandler()
 }
 

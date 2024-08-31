@@ -3,9 +3,9 @@ ktor:
         modules:
             - example.com.ApplicationKt.module
     deployment:
-        port: 8081
+        port: "$PORT:8080"
 
 db:
     mongo:
-        user: 'root'
-        password: 'root'
+        user: '$MONGO_USERNAME:root'
+        password: '$MONGO_PASSWORD:root'
