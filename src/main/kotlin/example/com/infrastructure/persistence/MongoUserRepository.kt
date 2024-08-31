@@ -3,18 +3,16 @@ package example.com.infrastructure.persistence
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.UpdateOptions
+import example.com.domain.contracts.UserRepository
 import example.com.domain.entities.User
 import org.bson.Document
 
-class MongoUserRepository(private val database: MongoDatabase) {
+class MongoUserRepository(database: MongoDatabase): UserRepository {
 
-    private var collection: MongoCollection<Any>;
+    private val collection: MongoCollection<Any> = database.getCollection("users") as MongoCollection<Any>;
 
-    init {
-        collection = database.getCollection("users") as MongoCollection<Any>;
-    }
 
-    fun save(user: User) {
+    override fun save(user: User) {
         val options = UpdateOptions().upsert(true);
 
         val filter = Document("_id", user.getId()) // Usa el campo id como filter
@@ -23,7 +21,7 @@ class MongoUserRepository(private val database: MongoDatabase) {
         collection.updateOne(filter, update, options)
     }
 
-    fun findOne(id: String): User? {
+    override fun findOne(id: String): User? {
         val filter = Document("_id", id);
 
         val primitives = collection.find(filter).firstOrNull();
@@ -44,7 +42,7 @@ class MongoUserRepository(private val database: MongoDatabase) {
         };
     }
 
-    fun delete(user: User) {
+    override fun delete(user: User) {
         val filter = Document("_id", user.getId());
 
         collection.deleteOne(filter)

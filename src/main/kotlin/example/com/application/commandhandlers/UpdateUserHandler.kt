@@ -1,11 +1,11 @@
 package example.com.application.commandhandlers
 
 import example.com.application.commands.UpdateUserCommand
-import example.com.infrastructure.persistence.MongoUserRepository
+import example.com.domain.contracts.UserRepository
 import io.ktor.server.plugins.*
 
 class UpdateUserHandler(
-    private val userRepository: MongoUserRepository
+    private val userRepository: UserRepository
 ) {
 
     fun handle(command: UpdateUserCommand) {
@@ -15,6 +15,6 @@ class UpdateUserHandler(
             throw NotFoundException("not found user with id: ${command.id}")
         }
 
-        user.update(command.name, command.lastName)
+        user.update(command.username)
     }
 }

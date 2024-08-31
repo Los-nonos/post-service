@@ -12,6 +12,8 @@ import example.com.infrastructure.http.actions.CreateUserAction
 import example.com.infrastructure.http.actions.DeleteUserAction
 import example.com.infrastructure.http.actions.FindUserByIdAction
 import example.com.infrastructure.http.actions.UpdateUserAction
+import example.com.infrastructure.http.dtos.CreateUserRequestBody
+import example.com.infrastructure.http.dtos.UpdateUserRequestBody
 import example.com.infrastructure.persistence.MongoUserRepository
 import example.com.infrastructure.persistence.connectToMongoDB
 import io.ktor.http.*
@@ -35,27 +37,22 @@ fun Application.userRouter() {
     routing {
 
         post("/users") {
-            val body = call.receive<CreateUserCommand>()
+            val body = call.receive<CreateUserRequestBody>()
             createUserAction.execute(body);
 
             call.respond(HttpStatusCode.Created, mapOf("message" to "ok"))
         }
 
         put("/users/{id}") {
-            val body = call.receive<UpdateUserCommand>()
+            val body = call.receive<UpdateUserRequestBody>()
 
-            body.id = call.parameters["id"].toString() ?: throw IllegalArgumentException("No ID Found")
-
-            updateUserAction.execute(body);
+            updateUserAction.execute(body, call.parameters);
 
             call.respond(HttpStatusCode.OK, mapOf("message" to "updated"))
         }
 
         get("/users/{id}") {
-
-            val query = FindUserByIdQuery(call.parameters["id"].toString())
-
-            val result = findUserByIdAction.execute(query)
+            val result = findUserByIdAction.execute(call.parameters)
 
             call.respond(HttpStatusCode.OK, result)
 
@@ -69,10 +66,7 @@ fun Application.userRouter() {
 
 
         delete("/users/{id}") {
-
-            val query = DeleteUserCommand(call.parameters["id"].toString())
-
-            deleteUserAction.execute(query)
+            deleteUserAction.execute(call.parameters)
 
             call.respond(HttpStatusCode.NoContent)
         }

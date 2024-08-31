@@ -8,7 +8,7 @@ class FindUserByIdHandler(
     private val userRepository: MongoUserRepository
 ) {
 
-    fun handle(query: FindUserByIdQuery): Map<String, String> {
+    fun handle(query: FindUserByIdQuery): Map<String, Any> {
 
         val user = userRepository.findOne(query.id)
 

@@ -1,11 +1,11 @@
 package example.com.application.commandhandlers
 
 import example.com.application.commands.DeleteUserCommand
-import example.com.infrastructure.persistence.MongoUserRepository
+import example.com.domain.contracts.UserRepository
 import io.ktor.server.plugins.*
 
 class DeleteUserHandler(
-    private val userRepository: MongoUserRepository
+    private val userRepository: UserRepository
 ) {
 
     fun handle(command: DeleteUserCommand) {
