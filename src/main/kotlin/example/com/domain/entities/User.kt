@@ -46,4 +46,12 @@ class User(
     fun getFollows(): List<String> {
         return this.follows
     }
+
+    fun getUsername(): String{
+        return this.username
+    }
+
+    fun getEmail(): String {
+        return this.email
+    }
 }

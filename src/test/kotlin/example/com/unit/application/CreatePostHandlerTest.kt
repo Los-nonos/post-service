@@ -24,6 +24,7 @@ class CreatePostHandlerTest {
 
     @Test
     fun `should create a post and persist into database`() {
+        // arrange
         val user = UserMother.random()
         val content = PostMother.faker.southPark.quotes()
 
@@ -34,8 +35,10 @@ class CreatePostHandlerTest {
             user.getId()
         )
 
+        // act
         sut.handle(command)
 
+        // assertions
         val posts = mockPostRepository.findByOwnerId(user.getId())
 
         assert(posts.size == 1)

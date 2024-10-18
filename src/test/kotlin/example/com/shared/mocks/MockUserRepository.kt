@@ -24,4 +24,8 @@ class MockUserRepository : UserRepository {
     fun clean() {
         users = emptyArray();
     }
+
+    fun findByUsername(username: String): User? {
+        return users.find { it.getUsername() == username }
+    }
 }
