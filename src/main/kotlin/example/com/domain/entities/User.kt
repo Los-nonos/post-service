@@ -10,7 +10,7 @@ class User(
     private var follows: List<String> = mutableListOf()
 
     companion object {
-        fun fromPrimitives(primitives: Map<String, String>): User {
+        fun fromPrimitives(primitives: Map<String, Any>): User {
 
             val user = User(
                 primitives["id"] as String,
